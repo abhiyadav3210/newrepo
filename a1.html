@@ -1,0 +1,39 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>youtube</title>
+    <style>
+        div {
+            width: 60%;
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>YouTube</h2>
+    <div id="container"></div>
+</body>
+
+</html>
+<script>
+    let data = JSON.parse(localStorage.getItem("video"))
+
+    display(data)
+
+    function display(data) {
+        let iframe = document.createElement("iframe")
+        iframe.src = `https://www.youtube.com/embed/${data.id.videoId}`
+        iframe.width = "100%";
+        iframe.height = "100%";
+        iframe.allow = "accelerometer;autoplay;clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        let p = document.createElement("p")
+        p.innerText = data.snippet.description
+        document.querySelector("#container").append(iframe, p)
+    }
+</script>
+
+<!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/cVL_VisSYq4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->

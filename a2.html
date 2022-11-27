@@ -1,0 +1,74 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        #container>div>img {
+            width: 250px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>You tube</h2>
+    <input type="text" id="query" placeholder="search">
+    <button onclick="get()">search</button>
+    <div id="container"></div>
+</body>
+
+</html>
+
+<script>
+    let api = "AIzaSyCjjRe4ypQDu-PAimqQX5-P1t2cvA7CCJI"
+
+    async function get() {
+        try {
+            let query = document.querySelector("#query").value
+            let res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?q=${query}&key=AIzaSyCjjRe4ypQDu-PAimqQX5-P1t2cvA7CCJI&part=snippet&maxResults=7`)
+            let data = await res.json()
+            data = data.items
+            console.log("data:", data)
+            appending(data)
+        } catch (err) {
+            console.log("err:", err)
+        }
+    }
+
+    function appending(data) {
+        document.querySelector("#container").innerHTML = ""
+        data.forEach(function (ele) {
+            console.log(ele)
+            let div = document.createElement("div")
+            div.addEventListener("click", function () {
+                play(ele)
+            })
+            let img = document.createElement("img")
+            img.src = ele.snippet.thumbnails.high.url
+            let p = document.createElement("p")
+            p.innerText = ele.snippet.description
+            div.append(img, p)
+            document.querySelector("#container").append(div)
+        })
+    }
+
+    function play(ele) {
+        localStorage.setItem("video", JSON.stringify(ele))
+        window.location.href = "a1.html"
+    }
+</script>
+<!-- 
+let iframe = document.createElement("iframe")
+iframe.src = `https://www.youtube.com/embed/${ele.id.videoId}`
+iframe.width = "100%";
+iframe.height = "100%";
+div.append(iframe) -->
